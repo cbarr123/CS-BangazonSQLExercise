@@ -30,8 +30,7 @@ SELECT d.Budget
 	FROM Department d;*/
 
 --6 List the employee full names for employees who are not signed up for any training programs.
-/*SELECT FirstName + ' ' + LastName as FullName
-	FROM Employee e
+/*	FROM Employee e
 	WHERE e.Id NOT IN
 		(SELECT e.Id
 			FROM Employee e
@@ -41,3 +40,96 @@ SELECT COUNT(*)
 
 --7 List the employee full names for employees who are signed up for at least one training program 
 --  and include the number of training programs they are signed up for.
+/*SELECT e.FirstName + ' ' + e.LastName AS 'Full Name', COUNT(*) AS '# of Traing Programs'
+	FROM Employee e
+	INNER JOIN EmployeeTraining et ON et.EmployeeId = e.Id
+	GROUP BY e.FirstName, e.LastName;*/
+
+--8 List all training programs along with the count employees who have signed up for each.
+/*SELECT tp.Name, COUNT(*) AS 'Total Attendees'
+	FROM TrainingProgram tp
+	LEFT JOIN EmployeeTraining et ON et.TrainingProgramId = tp.Id
+	--LEFT JOIN Employee e ON e.Id = et.EmployeeId
+	GROUP BY tp.Name;*/
+
+--9 List all training programs who have no more seats available.
+/*SELECT tp.Name, tp.MaxAttendees, COUNT(*) AS 'Number Signed Up'
+	FROM TrainingProgram tp
+	LEFT JOIN EmployeeTraining et ON et.TrainingProgramId = tp.Id
+	GROUP BY tp.Name, tp.MaxAttendees
+
+	;*/
+
+
+--10 List all future training programs ordered by start date with the earliest date first.
+--11 Assign a few employees to training programs of your choice.
+
+--12 List the top 3 most popular training programs. 
+--   (For this question, consider each record in the training program table to be a UNIQUE training program).
+
+--13 List the top 3 most popular training programs. 
+--   (For this question consider training programs with the same name to be the SAME training program).
+
+--14 List all employees who do not have computers.
+--inclass
+/*select e.*
+	from Employee e
+	left join ComputerEmployee ce on e.Id = ce.EmployeeId
+	where ce.id is null 
+		or e.id in (
+			select ce.EmployeeId
+				from ComputerEmployee ce
+				where ce.UnassignDate is  not null
+					and ce.EmployeeId not in (
+					select ce.EmployeeId
+				from ComputerEmployee ce
+				where ce.UnassignDate is null));*/
+
+--select * from Employee where Employee.Id = 1
+	
+	
+	
+	
+	
+
+
+
+
+-- 15 List all employees along with their current computer information make and manufacturer 
+--    combined into a field entitled ComputerInfo. If they do not have a computer, this field should say "N/A".
+/*SELECT e.FirstName, e.LastName, 
+	ISNULL(c.Make + ' ' + c.Manufacturer, 'N/A') AS ComputerInfo
+	from employee e
+	left join ComputerEmployee ce on e.id = ce.EmployeeId and ce.UnassignDate is null
+	left join Computer c on c.Id = ce.ComputerId
+
+	;
+	-- did this in class*/
+
+
+
+--16 List all computers that were purchased before July 2019 that are have not been decommissioned.
+--17 List all employees along with the total number of computers they have ever had.
+--18 List the number of customers using each payment type
+--19 List the 10 most expensive products and the names of the seller
+--20 List the 10 most purchased products and the names of the seller
+--21 Find the name of the customer who has made the most purchases
+
+select c.FirstName, c.LastName, count(o.CustomerId) as ordersplaced
+	from Customer c
+	left join [Order] o ON c.id = o.CustomerId
+	group by c.FirstName, c.LastName
+	order by ordersplaced DESC;
+
+select top 1 with ties c.FirstName, c.LastName, count(o.CustomerId) as productspurchased
+	from Customer c
+	left join [Order] o ON c.id = o.CustomerId
+	left join OrderProduct op on o.Id = op.OrderId
+	group by c.FirstName, c.LastName
+	order by productspurchased DESC;
+
+
+
+
+--22 List the amount of total sales by product type
+--23 List the total amount made from all sellers
