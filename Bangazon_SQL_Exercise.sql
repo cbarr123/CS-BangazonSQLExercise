@@ -6,10 +6,15 @@
 	ORDER BY d.Name, e.LastName, e.FirstName;*/
 
 --List each department ordered by budget amount with the highest first.
-
+/*SELECT d.Name, d.Budget
+	FROM Department d
+	ORDER BY d.Budget DESC;*/
 
 --List each department name along with any employees (full name) in that department who are supervisors.
-
+SELECT d.Name, e.FirstName + ' ' + e.LastName AS FullName
+	FROM Department d
+	INNER JOIN Employee e ON e.DepartmentId = d.Id
+	WHERE e.IsSupervisor = 1;
 
 --List each department name along with a count of employees in each department.
 
