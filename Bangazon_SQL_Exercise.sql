@@ -53,15 +53,21 @@ SELECT COUNT(*)
 	GROUP BY tp.Name;*/
 
 --9 List all training programs who have no more seats available.
-/*SELECT tp.Name, tp.MaxAttendees, COUNT(*) AS 'Number Signed Up'
+SELECT tp.Name, tp.MaxAttendees, COUNT(*) AS 'NumberSigned' 
 	FROM TrainingProgram tp
 	LEFT JOIN EmployeeTraining et ON et.TrainingProgramId = tp.Id
+	--WHERE tp.MaxAttendees <= Count(*)
 	GROUP BY tp.Name, tp.MaxAttendees
-
-	;*/
+	;
 
 
 --10 List all future training programs ordered by start date with the earliest date first.
+/*SELECT tp.Name, tp.StartDate
+	from TrainingProgram tp
+	where tp.StartDate > '2019-11-01'
+	ORDER BY tp.StartDate;*/
+
+
 --11 Assign a few employees to training programs of your choice.
 
 --12 List the top 3 most popular training programs. 
@@ -114,7 +120,7 @@ SELECT COUNT(*)
 --19 List the 10 most expensive products and the names of the seller
 --20 List the 10 most purchased products and the names of the seller
 --21 Find the name of the customer who has made the most purchases
-
+/*
 select c.FirstName, c.LastName, count(o.CustomerId) as ordersplaced
 	from Customer c
 	left join [Order] o ON c.id = o.CustomerId
@@ -127,7 +133,7 @@ select top 1 with ties c.FirstName, c.LastName, count(o.CustomerId) as productsp
 	left join OrderProduct op on o.Id = op.OrderId
 	group by c.FirstName, c.LastName
 	order by productspurchased DESC;
-
+*/
 
 
 
