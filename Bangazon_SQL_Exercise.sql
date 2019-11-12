@@ -39,29 +39,28 @@ SELECT COUNT(*)
 	FROM Employee e;*/
 
 --7 List the employee full names for employees who are signed up for at least one training program 
---  and include the number of training programs they are signed up for.
+--  and include the number of training programs they are signed up for.  Complete
 /*SELECT e.FirstName + ' ' + e.LastName AS 'Full Name', COUNT(*) AS '# of Traing Programs'
 	FROM Employee e
 	INNER JOIN EmployeeTraining et ON et.EmployeeId = e.Id
 	GROUP BY e.FirstName, e.LastName;*/
 
---8 List all training programs along with the count employees who have signed up for each.
+--8 List all training programs along with the count employees who have signed up for each. Complete
 /*SELECT tp.Name, COUNT(*) AS 'Total Attendees'
 	FROM TrainingProgram tp
 	LEFT JOIN EmployeeTraining et ON et.TrainingProgramId = tp.Id
 	--LEFT JOIN Employee e ON e.Id = et.EmployeeId
 	GROUP BY tp.Name;*/
 
---9 List all training programs who have no more seats available.
-SELECT tp.Name, tp.MaxAttendees, COUNT(*) AS 'NumberSigned' 
+--9 List all training programs who have no more seats available. Complete
+/*SELECT tp.Name, tp.MaxAttendees, COUNT(*) AS 'NumberSigned' 
 	FROM TrainingProgram tp
 	LEFT JOIN EmployeeTraining et ON et.TrainingProgramId = tp.Id
-	--WHERE tp.MaxAttendees <= Count(*)
 	GROUP BY tp.Name, tp.MaxAttendees
-	;
+	HAVING COUNT(et.EmployeeId) = tp.MaxAttendees;*/
 
 
---10 List all future training programs ordered by start date with the earliest date first.
+--10 List all future training programs ordered by start date with the earliest date first. Complete
 /*SELECT tp.Name, tp.StartDate
 	from TrainingProgram tp
 	where tp.StartDate > '2019-11-01'
@@ -69,6 +68,12 @@ SELECT tp.Name, tp.MaxAttendees, COUNT(*) AS 'NumberSigned'
 
 
 --11 Assign a few employees to training programs of your choice.
+SELECT tp.Name
+	from TrainingProgram tp
+	LEFT JOIN EmployeeTraining et ON et.TrainingProgramId = tp.Id
+	LEFT JOIN Employee e ON e.Id = et.EmployeeId
+	where tp.StartDate > '2019-11-01'
+	GROUP BY tp.Name;
 
 --12 List the top 3 most popular training programs. 
 --   (For this question, consider each record in the training program table to be a UNIQUE training program).
@@ -77,7 +82,7 @@ SELECT tp.Name, tp.MaxAttendees, COUNT(*) AS 'NumberSigned'
 --   (For this question consider training programs with the same name to be the SAME training program).
 
 --14 List all employees who do not have computers.
---inclass
+--     inclass exercise
 /*select e.*
 	from Employee e
 	left join ComputerEmployee ce on e.Id = ce.EmployeeId
@@ -103,14 +108,14 @@ SELECT tp.Name, tp.MaxAttendees, COUNT(*) AS 'NumberSigned'
 
 -- 15 List all employees along with their current computer information make and manufacturer 
 --    combined into a field entitled ComputerInfo. If they do not have a computer, this field should say "N/A".
+				-- did this in class*/
+
 /*SELECT e.FirstName, e.LastName, 
 	ISNULL(c.Make + ' ' + c.Manufacturer, 'N/A') AS ComputerInfo
 	from employee e
 	left join ComputerEmployee ce on e.id = ce.EmployeeId and ce.UnassignDate is null
-	left join Computer c on c.Id = ce.ComputerId
-
-	;
-	-- did this in class*/
+	left join Computer c on c.Id = ce.ComputerId;
+*/	
 
 
 
